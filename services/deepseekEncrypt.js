@@ -32,7 +32,6 @@ async function clarifyWithDeepSeek(text) {
         },
       }
     );
-    console.log(response.data.choices[0].message.content);
 
     return response.data.choices[0].message.content;
   } catch (err) {
@@ -55,7 +54,5 @@ function encryptAESGCM(dataJson, hexKey) {
     encryptedData: Buffer.concat([encrypted, authTag]).toString("base64"),
   };
 }
-
-clarifyWithDeepSeek().then(console.log);
 
 module.exports = { clarifyWithDeepSeek, encryptAESGCM };

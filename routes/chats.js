@@ -27,8 +27,6 @@ router.get("/bigChats", async (req, res) => {
 
   const plainChats = bigChats.map((chat) => chat.toJSON());
 
-  console.log(`this is big chats ${plainChats}`);
-
   res.send(plainChats);
 });
 
@@ -39,7 +37,6 @@ router.post("/bigChat", async (req, res) => {
     title: "New chat",
     UserId: req.session.userId,
   });
-  console.log(bigChat);
 
   res.send(bigChat);
 });

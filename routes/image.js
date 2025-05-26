@@ -19,7 +19,6 @@ router.post("/upload", upload.array("images", 6), async (req, res) => {
   console.log("WOOOOOW");
 
   const images = req.files;
-  console.log(images.length);
 
   try {
     // Здесь можно добавить обработку изображения и генерацию ответа
