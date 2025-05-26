@@ -23,13 +23,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
-    secret: "secret",
+    secret: "yourSecretKey", // замените на что-то надёжное
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: true,
-      httpOnly: false,
-      maxAge: 86400000,
+      secure: true, // 👈 true, если HTTPS (на Render — да)
+      sameSite: "none", // 👈 обязательно для кросс-доменных сессий
     },
   })
 );
