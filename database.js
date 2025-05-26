@@ -5,6 +5,12 @@ console.log(process.env.PSQL);
 
 const sequelize = new Sequelize(process.env.PSQL, {
   dialect: "postgres",
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
 
   logging: console.log,
   pool: {
