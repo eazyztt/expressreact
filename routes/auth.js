@@ -1,6 +1,7 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: "../.env" });
+const User = require("../models/user");
 
 const router = express.Router();
 
@@ -15,7 +16,13 @@ router.post("/api/auth", async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    console.log(decoded);
+    const user = await User.findByPk(decoded.id);
+    if (!user) {
+      User.create({
+        UserId: decoded.id,
+        username: decoded.username,
+      });
+    }
 
     // Установить токен как httpOnly cookie
     res.cookie("auth_token", token, {

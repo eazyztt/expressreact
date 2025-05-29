@@ -13,16 +13,13 @@ router.get("/newChat", async (req, res) => {
 router.get("/bigChats", async (req, res) => {
   console.log(`${req.session.userId} bbbbbbbbbbbbbbbbb`);
 
-  const user = await User.findByPk(req.session.userId);
-
+  const user = await User.findByPk(req.user.id);
   if (!user) {
-    const randomId = Math.floor(Math.random() * 10000);
-    await User.create({ UserId: String(randomId), username: "emslim" });
-    req.session.userId = String(randomId);
+    res.status(401).send("No user");
   }
 
   const bigChats = await Chat.findAll({
-    where: { UserId: req.session.userId },
+    where: { UserId: user.UserId },
   });
 
   const plainChats = bigChats.map((chat) => chat.toJSON());
@@ -35,24 +32,10 @@ router.post("/bigChat", async (req, res) => {
 
   const bigChat = await Chat.create({
     title: "New chat",
-    UserId: req.session.userId,
+    UserId: req.user.id,
   });
 
   res.send(bigChat);
-});
-
-router.get("/", async (req, res) => {
-  try {
-    const messages = await ShortMessage.findAll({
-      where: { ChatId: "1" },
-      order: [["createdAt", "DESC"]],
-    });
-
-    res.send(messages);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send(error);
-  }
 });
 
 router.post("/", async (req, res) => {
