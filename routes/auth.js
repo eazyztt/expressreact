@@ -25,7 +25,7 @@ router.post("/api/auth", (req, res) => {
 
     res.json({ ok: true, user: decoded });
   } catch (err) {
-    res.status(401).json({ error: "Invalid or expired token" });
+    res.status(401).json(err);
   }
 });
 
