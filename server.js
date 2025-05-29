@@ -7,6 +7,7 @@ const cors = require("cors");
 const session = require("express-session");
 const imageRouter = require("./routes/image");
 const auth = require("./routes/auth");
+const authMiddleware = require("./authMiddle");
 const app = express();
 
 app.set("trust proxy", true);
@@ -37,8 +38,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use("/", auth);
-app.use("/", chatRouter);
-app.use("/", imageRouter);
+app.use("/", authMiddleware, chatRouter);
+app.use("/", authMiddleware, imageRouter);
 
 async function connectDB() {
   try {

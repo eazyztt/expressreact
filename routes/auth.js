@@ -1,57 +1,29 @@
 const express = require("express");
-const User = require("../models/user");
-const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const router = express.Router();
 
-const BOT_TOKEN = process.env.TG_BOT;
+const JWT_SECRET = process.env.JWT_SECRET;
 
-function checkTelegramAuth(userData) {
-  const { hash, ...dataWithoutHash } = userData;
+router.post("/api/auth", (req, res) => {
+  const { token } = req.body;
 
-  const secret = crypto.createHash("sha256").update(BOT_TOKEN).digest();
-  const dataCheckString = Object.keys(dataWithoutHash)
-    .sort()
-    .map((key) => `${key}=${dataWithoutHash[key]}`)
-    .join("\n");
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
 
-  const hmac = crypto
-    .createHmac("sha256", secret)
-    .update(dataCheckString)
-    .digest("hex");
-
-  return hmac === hash;
-}
-
-router.post("/auth/telegram", async (req, res) => {
-  const user = req.body;
-  console.log(user);
-
-  if (!checkTelegramAuth(user)) {
-    return res
-      .status(403)
-      .json({ error: "Невалидные данные Telegram" })
-      .redirect("back");
-  }
-
-  console.log("WOrking");
-
-  const userDb = await User.findOne({ where: { UserId: String(user.id) } });
-  console.log("WOrking2");
-
-  // Сохраняем пользователя в базе (или достаём)
-  if (!userDb) {
-    await User.create({
-      UserId: String(user.id),
-      username: user.username,
+    // Установить токен как httpOnly cookie
+    res.cookie("auth_token", token, {
+      httpOnly: true,
+      secure: true, // ОБЯЗАТЕЛЬНО если HTTPS
+      sameSite: "None", // ОБЯЗАТЕЛЬНО если фронт на другом домене
+      maxAge: 60 * 60 * 1000, // 1 час
     });
+
+    res.json({ ok: true, user: decoded });
+  } catch (err) {
+    res.status(401).json({ error: "Invalid or expired token" });
   }
-
-  // Можно сохранить в сессии или выдать JWT
-  req.session.userId = String(user.id); // если используешь express-session
-
-  res.redirect("/");
 });
 
 module.exports = router;
