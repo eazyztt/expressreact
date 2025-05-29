@@ -27,6 +27,8 @@ router.post("/api/auth", async (req, res) => {
 
     res.json({ ok: true, user: decoded });
   } catch (err) {
+    console.log(err);
+
     res.status(401).json(err);
   }
 });
