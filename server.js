@@ -8,9 +8,12 @@ const session = require("express-session");
 const imageRouter = require("./routes/image");
 const auth = require("./routes/auth");
 const authMiddleware = require("./authMiddle");
+const cookieParser = require("cookie-parser");
 const app = express();
 
 app.set("trust proxy", true);
+
+app.use(cookieParser());
 
 app.use(
   cors({

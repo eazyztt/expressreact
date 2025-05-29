@@ -24,7 +24,7 @@ bot.start((ctx) => {
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "24h" });
 
   // Формируем ссылку с токеном в query
-  const link = `${FRONTEND_URL}/authorize?token=${token}`;
+  const link = `${FRONTEND_URL}/api/auth?token=${token}`;
 
   // Отправляем ссылку пользователю
   ctx.reply(
