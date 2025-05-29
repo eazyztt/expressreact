@@ -7,7 +7,7 @@ const Chat = sequelize.define("Chat", {
     defaultValue: "New Chat",
   },
   UserId: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 });
