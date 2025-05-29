@@ -1,5 +1,5 @@
 function authMiddleware(req, res, next) {
-  const token = req.body.token;
+  const token = req.cookies.auth_token;
 
   if (!token) return res.status(401).json({ error: "Unauthorized" });
 
