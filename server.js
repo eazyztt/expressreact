@@ -13,14 +13,13 @@ const app = express();
 
 app.set("trust proxy", true);
 
-app.use(cookieParser());
-
 app.use(
   cors({
     origin: "https://css-learn.onrender.com", // адрес твоего фронта
     credentials: true, // ВАЖНО!
   })
 );
+app.use(cookieParser());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

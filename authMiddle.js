@@ -6,6 +6,8 @@ const JWT_SECRET = process.env.JWT_SECRET;
 function authMiddleware(req, res, next) {
   const token = req.cookies.auth_token;
 
+  console.log(`this is ouuuuuuuur ${req.cookies}`);
+
   if (!token) return res.status(401).json({ error: "Unauthorized" });
 
   try {
