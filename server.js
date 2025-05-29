@@ -41,8 +41,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use("/", auth);
-app.use("/", authMiddleware, chatRouter);
-app.use("/", authMiddleware, imageRouter);
+app.use("/", chatRouter);
+app.use("/", imageRouter);
 
 async function connectDB() {
   try {
