@@ -1,6 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
+require("dotenv").config({ path: "../.env" });
 
 const router = express.Router();
 
