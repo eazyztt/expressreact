@@ -32,6 +32,8 @@ router.post("/api/auth", async (req, res) => {
       maxAge: 60 * 60 * 1000, // 1 час
     });
 
+    req.user = decoded;
+
     res.json({ ok: true, user: decoded });
   } catch (err) {
     console.log(err);
