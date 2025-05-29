@@ -15,6 +15,8 @@ router.post("/api/auth", (req, res) => {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
 
+    console.log(decoded);
+
     // Установить токен как httpOnly cookie
     res.cookie("auth_token", token, {
       httpOnly: true,
