@@ -50,10 +50,21 @@ router.post("/", async (req, res) => {
     const chats = await ShortMessage.findAll({
       where: {
         ChatId: req.body.chatId,
+        order: [["createdAt", "ASC"]],
       },
     });
 
-    const msg = await clarifyWithDeepSeek(chats);
+    const formattedMessages = chats.map((msg) => {
+      const { message, role } = msg.get({ plain: true });
+      return {
+        role,
+        content: message,
+      };
+    });
+
+    const jsonString = JSON.stringify(formattedMessages);
+
+    const msg = await clarifyWithDeepSeek(jsonString);
     await ShortMessage.create({
       ChatId: req.body.chatId,
       message: msg,
