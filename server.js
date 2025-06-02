@@ -9,6 +9,7 @@ const imageRouter = require("./routes/image");
 const auth = require("./routes/auth");
 const authMiddleware = require("./authMiddle");
 const cookieParser = require("cookie-parser");
+const verifyInitData = require("./utilities/auth");
 const app = express();
 
 app.set("trust proxy", true);
