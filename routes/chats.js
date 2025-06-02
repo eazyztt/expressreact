@@ -1,6 +1,7 @@
 const express = require("express");
 const { Chat, Message, ShortMessage } = require("../models/chat");
 const User = require("../models/user");
+const { clarifyWithDeepSeek } = require("../services/deepseekMsg");
 
 const router = express.Router();
 
@@ -45,6 +46,18 @@ router.post("/", async (req, res) => {
       message: req.body.message,
       role: req.body.role,
       ChatId: req.body.chatId,
+    });
+    const chats = await ShortMessage.findAll({
+      where: {
+        ChatId: req.body.chatId,
+      },
+    });
+
+    const msg = await clarifyWithDeepSeek(chats);
+    await ShortMessage.create({
+      ChatId: req.body.chatId,
+      message: msg,
+      role: "GPT",
     });
     res.send(chat);
   } catch (error) {
