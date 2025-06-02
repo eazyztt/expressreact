@@ -41,6 +41,13 @@ router.post("/upload", upload.array("images", 6), async (req, res) => {
       message: finalStr.brief_portrait,
     });
 
+    await Chat.update(
+      {
+        title: finalStr.title,
+      },
+      { where: { ChatId: req.body.id } }
+    );
+
     console.error(finalStr, msg);
     res.send(finalStr);
   } catch (error) {

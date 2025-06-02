@@ -10,6 +10,7 @@ async function clarifyWithDeepSeek(text) {
     const prompt = `${text} Вот описание фото человека и данные о нем. Ты являешься специалистом в области отношений. Ответ я ожидаю в формате JSON, а именно rawText: rawText,
       general_advice: general_advice,
       message_options: message_options,
+      title: name_from_screenshot,
       brief_portrait: brief_portrait,
     } general_advice это общий совет. message_options это массив из трех возможных вариантов сообщений для знакомства, brief_portrait это краткое описание пользователя`;
     const response = await axios.post(
