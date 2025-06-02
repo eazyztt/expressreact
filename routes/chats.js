@@ -12,6 +12,7 @@ router.get("/newChat", async (req, res) => {
 
 router.get("/bigChats", async (req, res) => {
   const { auth_token } = req.headers;
+  console.log(req.headers);
 
   console.log(auth_token);
 
