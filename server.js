@@ -24,6 +24,26 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const verifyAuth = (req, res, next) => {
+  const authHeader = req.headers["auth_token"];
+
+  console.log(`${authHeader} this is auth header`);
+
+  if (!authHeader) {
+    return res.status(401).json({ message: "Authorization header missing" });
+  }
+
+  const { username, id } = verifyInitData(authHeader);
+  if (!username || !id) {
+    return res.status(401).json({ message: "No valid token" });
+  }
+
+  req.tgId = id;
+  req.username = username;
+  // Дальше выполняется логика валидации
+  next();
+};
+
 // app.use(
 //   session({
 //     secret: "yourSecretKey", // замените на что-то надёжное
@@ -40,8 +60,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use("/", auth);
-app.use("/", chatRouter);
-app.use("/", authMiddleware, imageRouter);
+app.use("/", verifyAuth, chatRouter);
+app.use("/", verifyAuth, imageRouter);
 
 async function connectDB() {
   try {

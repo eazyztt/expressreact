@@ -11,14 +11,12 @@ router.get("/newChat", async (req, res) => {
 });
 
 router.get("/bigChats", async (req, res) => {
-  const { auth_token } = req.headers;
-  console.log(req.headers);
-
-  console.log(auth_token);
-
-  const user = await User.findByPk(req.user.id);
+  const user = await User.findByPk(req.tgId);
   if (!user) {
-    res.status(401).send("No user");
+    user = user.create({
+      UserId: req.tgId,
+      username: req.username,
+    });
   }
 
   const bigChats = await Chat.findAll({
@@ -31,13 +29,9 @@ router.get("/bigChats", async (req, res) => {
 });
 
 router.post("/bigChat", async (req, res) => {
-  console.log(`${req.session} aaaaaaaaaaaaaaaaaaaaa`);
-
-  console.log(req.user);
-
   const bigChat = await Chat.create({
     title: "New chat",
-    UserId: req.user.id,
+    UserId: req.tgId,
   });
 
   res.send(bigChat);
