@@ -24,17 +24,17 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  session({
-    secret: "yourSecretKey", // замените на что-то надёжное
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: true, // 👈 true, если HTTPS (на Render — да)
-      sameSite: "none", // 👈 обязательно для кросс-доменных сессий
-    },
-  })
-);
+// app.use(
+//   session({
+//     secret: "yourSecretKey", // замените на что-то надёжное
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       secure: true, // 👈 true, если HTTPS (на Render — да)
+//       sameSite: "none", // 👈 обязательно для кросс-доменных сессий
+//     },
+//   })
+// );
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());

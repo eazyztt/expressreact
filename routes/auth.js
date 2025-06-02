@@ -8,10 +8,9 @@ const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post("/api/auth", async (req, res) => {
-  const { token } = req.body;
-  console.log(req.body);
+  const { auth_token } = req.headers;
 
-  console.log(token);
+  console.log(auth_token);
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
