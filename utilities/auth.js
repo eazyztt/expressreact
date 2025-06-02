@@ -27,7 +27,7 @@ const verifyInitData = (telegramInitData) => {
 
   const secret = crypto
     .createHmac("sha256", "WebAppData")
-    .update(process.env.TG_KEY);
+    .update(process.env.TG_BOT);
   const calculatedHash = crypto
     .createHmac("sha256", secret.digest())
     .update(dataCheckString)
