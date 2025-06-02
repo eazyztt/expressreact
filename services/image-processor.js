@@ -62,6 +62,8 @@ async function processImages({
 
   const clarifiedText = await clarifyWithDeepSeek(rawText);
 
+  console.log(clarifiedText);
+
   // const cleanJsonString = clarifiedText.match(/{[\s\S]*}/)?.[0];
   // console.log(cleanJsonString);
 
