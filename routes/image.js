@@ -45,7 +45,7 @@ router.post("/upload", upload.array("images", 6), async (req, res) => {
       {
         title: finalStr.title,
       },
-      { where: { ChatId: req.body.id } }
+      { where: { id: req.body.id } }
     );
 
     console.error(finalStr, msg);
