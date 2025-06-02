@@ -11,7 +11,9 @@ router.get("/newChat", async (req, res) => {
 });
 
 router.get("/bigChats", async (req, res) => {
-  console.log(`${req.session.userId} bbbbbbbbbbbbbbbbb`);
+  const { auth_token } = req.headers;
+
+  console.log(auth_token);
 
   const user = await User.findByPk(req.user.id);
   if (!user) {
