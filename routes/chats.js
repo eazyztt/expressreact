@@ -13,7 +13,7 @@ router.get("/newChat", async (req, res) => {
 router.get("/bigChats", async (req, res) => {
   const user = await User.findByPk(req.tgId);
   if (!user) {
-    user = user.create({
+    user = User.create({
       UserId: req.tgId,
       username: req.username,
     });
