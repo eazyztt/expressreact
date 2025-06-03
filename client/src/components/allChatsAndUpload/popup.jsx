@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import LoadingOverlay from "./LoadingOverlay";
 
-const Popup = ({ setOpen, options, setMsgOption, chatId, msgOption }) => {
+const Popup = ({
+  setOpen,
+  options,
+  setMsgOption,
+  chatId,
+  msgOption,
+  isOpen,
+}) => {
+  const [load, setLoad] = useState(false);
+
   const navigate = useNavigate();
 
   async function chooseMsgOption(msgOption, chatId) {
@@ -29,7 +39,7 @@ const Popup = ({ setOpen, options, setMsgOption, chatId, msgOption }) => {
       <div className="fixed inset-0 bg-black/30 backdrop-blur-sm pointer-events-none" />
 
       {/* Контент попапа */}
-      <div className="relative z-10 bg-white rounded-2xl p-9 shadow-xl max-w-md w-full">
+      <div className="relative z-10 bg-white rounded-2xl p-9 shadow-xl max-w-md w-[90dvw]">
         <h2 className="text-lg font-semibold pl-1">
           Нажми на вариант ответа который понравился больше всего!
         </h2>
@@ -39,11 +49,16 @@ const Popup = ({ setOpen, options, setMsgOption, chatId, msgOption }) => {
               key={index}
               onClick={async () => {
                 setMsgOption(el);
+                {
+                  load ? <LoadingOverlay /> : "";
+                }
+                setLoad(true);
+                await chooseMsgOption(el, chatId);
+                setLoad(false);
                 navigate(`/chat/${chatId}`, { state: { msgOption } });
                 setOpen(false);
-                await chooseMsgOption(el, chatId);
               }}
-              class="bg-sky-400 rounded-3xl p-2 text-start active:bg-sky-600"
+              class="bg-sky-400 rounded-3xl p-3 text-start active:bg-sky-600"
             >
               {el}
             </button>

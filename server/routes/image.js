@@ -3,6 +3,8 @@ const multer = require("multer");
 const { processImages } = require("../services/image-processor");
 const { clarifyWithDeepSeek } = require("../services/deepseekEncrypt");
 const { Chat, Message, ShortMessage } = require("../models/chat");
+const path = require("path");
+const fs = require("fs");
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -19,6 +21,13 @@ router.post("/upload", upload.array("images", 6), async (req, res) => {
   console.log("WOOOOOW");
 
   const images = req.files;
+
+  const uploadPath = path.join(__dirname, "../uploads");
+
+  images.forEach((file) => {
+    const filePath = path.join(uploadPath, file.originalname); // ← Только имя файла
+    fs.writeFileSync(filePath, file.buffer);
+  });
 
   try {
     // Здесь можно добавить обработку изображения и генерацию ответа
@@ -48,7 +57,10 @@ router.post("/upload", upload.array("images", 6), async (req, res) => {
       { where: { id: req.body.id } }
     );
 
-    console.error(finalStr, msg);
+    //console.error(finalStr, msg);
+
+    console.log(finalStr.message_options);
+
     res.send(finalStr);
   } catch (error) {
     console.error(error);

@@ -11,19 +11,18 @@ const authMiddleware = require("./authMiddle");
 const cookieParser = require("cookie-parser");
 const verifyInitData = require("./utilities/auth");
 const app = express();
+const path = require("path");
 
 app.set("trust proxy", true);
 
-app.use(
-  cors({
-    origin: "https://css-learn.onrender.com", // адрес твоего фронта
-    credentials: true, // ВАЖНО!
-  })
-);
 app.use(cookieParser());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname, "public/dist")));
+
+// Для SPA (если используется React Router)
 
 const verifyAuth = (req, res, next) => {
   const authHeader = req.headers["auth_token"];
@@ -64,6 +63,10 @@ app.use("/", auth);
 app.use("/", verifyAuth, chatRouter);
 app.use("/", verifyAuth, imageRouter);
 
+app.all("/{*any}", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 async function connectDB() {
   try {
     await sequelize.authenticate();
@@ -74,7 +77,7 @@ async function connectDB() {
 }
 
 sequelize
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => {
     console.log("Database synced successfully");
   })
@@ -83,7 +86,7 @@ sequelize
   });
 
 connectDB().then(() => {
-  app.listen(5173, () => {
-    console.log(`Server is running on http://localhost:${5173}`);
+  app.listen(3000, () => {
+    console.log(`Server is running on http://localhost:${3000}`);
   });
 });

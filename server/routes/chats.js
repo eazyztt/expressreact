@@ -40,6 +40,19 @@ router.post("/bigChat", async (req, res) => {
 
 router.post("/", async (req, res) => {
   console.log(req.body);
+  if (req.body.role === "GPT") {
+    await ShortMessage.create({
+      message: req.body.message,
+      role: req.body.role,
+      ChatId: req.body.chatId,
+    });
+    const chats = await ShortMessage.findAll({
+      where: {
+        ChatId: req.body.chatId,
+      },
+    });
+    return res.send(chats);
+  }
 
   try {
     const chat = await ShortMessage.create({
@@ -73,7 +86,7 @@ router.post("/", async (req, res) => {
       message: msg,
       role: "GPT",
     });
-    res.send(chat);
+    res.send(chats);
   } catch (error) {
     console.error(error);
     res.status(500).send("err");

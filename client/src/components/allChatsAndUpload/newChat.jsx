@@ -77,6 +77,7 @@ export default function NewChat() {
           options={options}
           setMsgOption={setMsgOption}
           chatId={chatId}
+          isOpen={isOpen}
         />
       )}
       <Header />

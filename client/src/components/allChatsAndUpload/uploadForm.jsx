@@ -89,17 +89,14 @@ export default function UploadForm({ files, setFiles }) {
           <p className="text-sm text-white font-semibold mb-2">
             Selected files:
           </p>
-          <div className="flex flex-row flex-wrap w-[90dvw] gap-6 text-sm text-gray-700 dark:text-gray-200 space-y-1">
+          <div className="flex flex-row justify-around flex-wrap  gap-6 text-sm text-gray-700 dark:text-gray-200">
             {files.map((file, index) => (
               <div
                 key={index}
-                className=" flex  bg-gray-100 dark:bg-gray-800 px-1 py-1 rounded-lg"
+                className=" flex flex-col bg-gray-100 dark:bg-gray-800 px-1 py-1 rounded-lg"
               >
                 <span className="truncate">
-                  <img
-                    class="w-[20dvw] h-20 border border-red-500"
-                    src={URL.createObjectURL(file)}
-                  />
+                  <img class="w-[20dvw] h-20" src={URL.createObjectURL(file)} />
                 </span>
                 <button
                   onClick={() => removeFile(index)}

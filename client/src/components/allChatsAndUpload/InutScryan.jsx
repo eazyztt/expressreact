@@ -60,6 +60,13 @@ export default function InutScryan() {
       {!loaded ? <LoadingOverlay text="Loading..." /> : ""}
       <Header />
       <div class="mt-30">
+        {chats.length > 0 ? (
+          ""
+        ) : (
+          <p class="text-white ml-5 text-2xl">
+            Click plus button below to start new chat!
+          </p>
+        )}
         {chats.map((chat) => (
           <ChatCard
             key={chat.id}

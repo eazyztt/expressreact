@@ -87,13 +87,13 @@ export default function ChatInside() {
 
   return (
     <div class=" bg-slate-700 mt-20">
-      {!loaded ? (
+      {/* {!loaded ? (
         <LoadingOverlay text="Please wait for response. It can last up to 30 secs." />
       ) : (
         ""
-      )}
+      )} */}
       <Header />
-      <div class="flex flex-col  m-5  bg-slate-700 pt-7 gap-5 pb-35">
+      <div class="flex flex-col  m-5  bg-slate-700 pt-7 gap-5 pb-20">
         {allChats.map((chat) => {
           if (chat.role === "User") {
             return <MsgUser chat={chat} />;
@@ -103,7 +103,11 @@ export default function ChatInside() {
         })}
         <div ref={bottomRef} />
       </div>
-
+      {!loaded ? (
+        <p class="font-bold text-gray-400 fixed bottom-25 left-5">Typing...</p>
+      ) : (
+        ""
+      )}
       <TypeMessage
         setText={setText}
         handleSend={handleSend}
