@@ -2,8 +2,8 @@ require("dotenv").config();
 const sharp = require("sharp");
 const fs = require("fs");
 const axios = require("axios");
-const { encryptAESGCM } = require("../services/deepseekEncrypt"); // Предполагается, что функция существует
-const { clarifyWithDeepSeek } = require("../services/deepseekEncrypt"); // Предполагается, что функция существует
+const { encryptAESGCM } = require("./deepseekEncrypt"); // Предполагается, что функция существует
+const { clarifyWithDeepSeek } = require("./deepseekEncrypt"); // Предполагается, что функция существует
 
 async function processImages({
   files: images,
